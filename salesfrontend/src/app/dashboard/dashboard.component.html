@@ -1,0 +1,41 @@
+<!-- Top Navbar -->
+<div class="container-fluid bg-dark text-white p-3 d-flex justify-content-between align-items-center sticky-top shadow">
+  <h4 class="m-0">Sales Dashboard</h4>
+
+  <div class="d-flex align-items-center gap-2">
+    <!-- Leads Button -->
+    <button class="btn btn-outline-light btn-sm" (click)="openLeadsForm()">
+      <i class="bi bi-plus-circle"></i> Leads
+    </button>
+
+    <!-- Home Button -->
+    <button class="btn btn-outline-light btn-sm" (click)="goHome()">
+      <i class="bi bi-house-door-fill"></i> Home
+    </button>
+
+    <!-- Welcome Text -->
+    <span class="mx-2">Welcome, {{ userName }}</span>
+
+    <!-- Logout Button -->
+    <button class="btn btn-danger btn-sm" (click)="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- Main Content Area -->
+<div class="container-fluid bg-black text-white py-4 px-3 min-vh-100">
+  <!-- Dynamic Content -->
+  <div *ngIf="showForm">
+    <app-sales-form 
+      [existingData]="selectedRow"
+      [refresh]="reload"
+      [resetEdit]="clearSelection">
+    </app-sales-form>
+  </div>
+
+  <div *ngIf="!showForm">
+    <app-sales-table 
+      (editRequested)="editRow($event)">
+    </app-sales-table>
+  </div>
+</div>
+

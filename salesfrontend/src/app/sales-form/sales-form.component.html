@@ -1,0 +1,194 @@
+<!-- Full black container -->
+<div class="bg-black min-vh-100 py-4 px-2 px-md-3 d-flex align-items-start justify-content-center">
+  <div class="card w-100 shadow-lg custom-card text-light" style="max-width: 1000px;">
+    <div class="card-body p-4">
+      <h3 class="text-center mb-4">Sales Opportunity Form</h3>
+
+      <form [formGroup]="salesForm" (ngSubmit)="submit()">
+        <div class="row g-3">
+
+          <!-- === Edit Mode === -->
+          <ng-container *ngIf="editId">
+            <!-- Sales Stage -->
+            <div class="col-md-4 col-sm-6">
+              <div class="custom-form-group">
+                <label>Sales Stage</label>
+                <div class="custom-input-wrapper">
+                  <i class="bi bi-flag icon"></i>
+                  <select class="custom-input" formControlName="salesStage">
+                    <option [value]="salesForm.get('salesStage')?.value" selected>
+                      {{ salesForm.get('salesStage')?.value || 'Select' }}
+                    </option>
+                    <option *ngFor="let stage of salesStageOptions" [value]="stage">{{ stage }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Deal-related fields -->
+            <ng-container *ngFor="let field of [
+              { name: 'quotationSent', label: 'Quotation Sent Y/N', icon: 'check-square', isSelect: true },
+              { name: 'sowSent', label: 'SOW Sent Y/N', icon: 'check-square', isSelect: true },
+              { name: 'negotiation', label: 'Negotiation Y/N', icon: 'check-square', isSelect: true },
+              { name: 'nextFollowUpDate', label: 'Next Follow-up Date', icon: 'calendar', type: 'date' },
+              { name: 'dealWon', label: 'Deal Size (USD)', icon: 'currency-dollar', type: 'number' }
+            ]">
+              <div class="col-md-4 col-sm-6">
+                <div class="custom-form-group">
+                  <label>{{ field.label }} <span class="text-danger">*</span></label>
+                  <div class="custom-input-wrapper">
+                    <i class="bi bi-{{ field.icon }} icon"></i>
+                    <ng-container *ngIf="field.isSelect">
+                      <select class="custom-input" [formControlName]="field.name">
+                        <option value="">Select</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                      </select>
+                    </ng-container>
+                    <ng-container *ngIf="field.type === 'date'">
+                      <input type="date" class="custom-input" [formControlName]="field.name" />
+                    </ng-container>
+                    <ng-container *ngIf="field.type === 'number'">
+                      <input type="number" min="0" class="custom-input" [formControlName]="field.name" />
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <!-- New Comment -->
+            <div class="col-md-6">
+              <div class="custom-form-group">
+                <label>New Comment</label>
+                <div class="custom-input-wrapper">
+                  <i class="bi bi-chat-dots icon"></i>
+                  <textarea
+                    class="custom-input"
+                    rows="2"
+                    formControlName="comments"
+                    [placeholder]="lastComment ? 'Last: ' + lastComment : 'Enter comment'">
+                  </textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info Block -->
+            <div class="col-12 mt-3">
+              <h5 class="text-info border-bottom pb-2">Information</h5>
+              <div class="row">
+                <ng-container *ngFor="let field of uneditableFields">
+                  <div class="col-md-4 col-sm-6 mb-2">
+                    <div class="text-light">
+                      <strong>{{ field.label }}:</strong> {{ salesForm.get(field.name)?.value || '-' }}
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Event / Lead -->
+                <div class="col-md-4 col-sm-6 mb-2">
+                  <strong>Event / Lead:</strong> {{ salesForm.get('eventLead')?.value || '-' }}
+                </div>
+
+                <!-- Domain -->
+                <div class="col-md-4 col-sm-6 mb-2">
+                  <strong>Domain:</strong> {{ salesForm.get('domain')?.value || '-' }}
+                </div>
+              </div>
+
+              <!-- Previous Comments -->
+              <div class="mt-2">
+                <strong>Previous Comments:</strong>
+                <pre class="mb-0 text-white" style="white-space: pre-wrap;">{{ formattedComments || '-' }}</pre>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- === Create Mode === -->
+          <ng-container *ngIf="!editId">
+            <ng-container *ngFor="let field of [
+              { name: 'eventLead', label: 'Event / Lead', icon: 'lightbulb' },
+              { name: 'companyName', label: 'Company Name', icon: 'building' },
+              { name: 'opportunity', label: 'Opportunity', icon: 'bullseye', isSelect: true },
+              { name: 'contactPersonName', label: 'Contact Person Name', icon: 'person-vcard' },
+              { name: 'designation', label: 'Designation', icon: 'person-badge' },
+              { name: 'mobile', label: 'Mobile', icon: 'telephone-fill' },
+              { name: 'email', label: 'Email', icon: 'envelope', optional: true },
+              { name: 'nextFollowUpDate', label: 'Next Follow-up Date', icon: 'calendar', type: 'date' },
+              { name: 'dealWon', label: 'Deal Size (USD)', icon: 'currency-dollar', type: 'number' },
+              { name: 'domain', label: 'Domain', icon: 'globe2', optional: true }
+            ]">
+              <div class="col-md-4 col-sm-6">
+                <div class="custom-form-group">
+                  <label>
+                    {{ field.label }}
+                    <span *ngIf="!field.optional && field.name !== 'mobile'" class="text-danger">*</span>
+                  </label>
+                  <div class="custom-input-wrapper">
+                    <i class="bi bi-{{ field.icon }} icon"></i>
+                    <ng-container *ngIf="field.isSelect">
+                      <select class="custom-input" [formControlName]="field.name">
+                        <option value="">Select</option>
+                        <option *ngFor="let option of opportunityList" [value]="option">{{ option }}</option>
+                      </select>
+                    </ng-container>
+                    <ng-container *ngIf="field.type === 'date'">
+                      <input type="date" class="custom-input" [formControlName]="field.name" />
+                    </ng-container>
+                    <ng-container *ngIf="field.type === 'number'">
+                      <input type="number" class="custom-input" min="0" [formControlName]="field.name" />
+                    </ng-container>
+                    <ng-container *ngIf="!field.isSelect && !field.type">
+                      <input
+                        type="text"
+                        class="custom-input"
+                        [formControlName]="field.name"
+                        [attr.pattern]="field.name === 'mobile' ? '[0-9]*' : null"
+                        [attr.maxlength]="field.name === 'mobile' ? '10' : null"
+                      />
+                    </ng-container>
+                  </div>
+
+                  <!-- Required error -->
+                  <div class="text-danger small mt-1"
+                    *ngIf="salesForm.get(field.name)?.touched && salesForm.get(field.name)?.hasError('required')">
+                    {{ field.label }} is required.
+                  </div>
+
+                  <!-- Mobile format error -->
+                  <div class="text-danger small mt-1"
+                    *ngIf="field.name === 'mobile' && salesForm.get('mobile')?.touched &&
+                            salesForm.get('mobile')?.value?.length !== 10">
+                    Mobile must be exactly 10 digits.
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <!-- Required Comments -->
+            <div class="col-md-6">
+              <div class="custom-form-group">
+                <label>Comments <span class="text-danger">*</span></label>
+                <div class="custom-input-wrapper">
+                  <i class="bi bi-chat-dots icon"></i>
+                  <textarea class="custom-input" rows="2" formControlName="comments"></textarea>
+                </div>
+                <div class="text-danger small mt-1"
+                  *ngIf="salesForm.get('comments')?.touched && salesForm.get('comments')?.hasError('required')">
+                  Comments are required.
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-4 text-end">
+          <button class="btn btn-success" type="submit">
+            <i class="bi bi-save"></i> Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

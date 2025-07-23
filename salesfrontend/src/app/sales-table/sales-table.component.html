@@ -1,0 +1,105 @@
+<!-- Full black container -->
+<div class="bg-black min-vh-100 py-4 px-2 px-md-3 text-light">
+  <div class="container-fluid">
+
+    <!-- Filter Bar -->
+    <div class="mb-4 d-flex flex-wrap align-items-end gap-3 justify-content-start">
+
+      <!-- Opportunity Filter -->
+      <div class="custom-form-group">
+        <label>Opportunity</label>
+        <div class="custom-input-wrapper">
+          <i class="bi bi-bullseye icon"></i>
+          <select class="custom-input" [(ngModel)]="selectedOpportunity" (change)="applyFilter()">
+            <option value="">All Opportunities</option>
+            <option *ngFor="let opp of opportunityList">{{ opp }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Sales Stage Filter -->
+      <div class="custom-form-group">
+        <label>Sales Stage</label>
+        <div class="custom-input-wrapper">
+          <i class="bi bi-flag icon"></i>
+          <select class="custom-input" [(ngModel)]="selectedSalesStage" (change)="applyFilter()">
+            <option value="">All Sales</option>
+            <option *ngFor="let stage of salesStageList">{{ stage }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Search Input -->
+      <div class="custom-form-group">
+        <label>Search</label>
+        <div class="custom-input-wrapper">
+          <i class="bi bi-search icon"></i>
+          <input class="custom-input" type="text" [(ngModel)]="filter" (input)="applyFilter()" placeholder="Search" />
+        </div>
+      </div>
+
+      <!-- From Date -->
+      <div class="custom-form-group">
+        <label>From Date</label>
+        <div class="custom-input-wrapper">
+          <i class="bi bi-calendar-check icon"></i>
+          <input class="custom-input" type="date" [(ngModel)]="fromDate" (change)="applyFilter()" />
+        </div>
+      </div>
+
+      <!-- To Date -->
+      <div class="custom-form-group">
+        <label>To Date</label>
+        <div class="custom-input-wrapper">
+          <i class="bi bi-calendar-date icon"></i>
+          <input class="custom-input" type="date" [(ngModel)]="toDate" (change)="applyFilter()" />
+        </div>
+      </div>
+
+      <!-- Clear Filters -->
+      <div class="custom-form-group">
+        <label>&nbsp;</label>
+        <button class="btn btn-outline-warning w-100" (click)="clearFilters()">
+          <i class="bi bi-x-circle"></i> Clear Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered align-middle text-center table-dark table-striped">
+        <thead class="bg-gradient">
+          <tr>
+            <th>Actions</th>
+            <th *ngFor="let key of tableHeaders">
+              {{ key === 'dealWon' ? 'Deal Size (USD)' : (key | titlecase) }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of filtered">
+            <!-- Actions -->
+            <td data-label="Actions">
+              <button class="btn btn-sm btn-outline-info me-1" (click)="edit(row)">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="delete(row.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+
+            <!-- Data Fields -->
+            <td *ngFor="let key of tableHeaders" [attr.data-label]="key">
+              <span *ngIf="key === 'dealWon'; else normalCell">
+                {{ row[key] ? ('$' + row[key]) : '-' }}
+              </span>
+              <ng-template #normalCell>{{ row[key] }}</ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+

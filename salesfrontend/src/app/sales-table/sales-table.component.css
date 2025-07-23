@@ -1,0 +1,89 @@
+/* Floating Label + Icon Style (Shared with Sales Form) */
+.custom-form-group {
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+.custom-form-group label {
+  position: absolute;
+  top: -0.6rem;
+  left: 1.2rem;
+  font-size: 0.85rem;
+  background-color: #1c1c1c;
+  padding: 0 6px;
+  color: #f1f1f1;
+  z-index: 1;
+}
+
+.custom-input-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #1c1c1c;
+}
+
+.custom-input-wrapper .icon {
+  color: #07c5f0;
+  font-size: 1.1rem;
+  margin-right: 0.6rem;
+}
+
+.custom-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: rgb(34, 61, 68);
+  font-size: 0.95rem;
+}
+
+.custom-input:focus {
+  outline: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Table styles */
+.table {
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+th, td {
+  white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .custom-input {
+    font-size: 0.8rem;
+    padding: 0.3rem;
+  }
+  .table {
+    font-size: 0.75rem;
+  }
+  .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+@media (min-width: 768px) {
+  .custom-input {
+    min-width: 160px;
+  }
+  input[type="date"] {
+    min-width: 140px;
+  }
+}
+
+/* Button Customizations */
+.btn-outline-warning {
+  color: #ffc107;
+  border-color: #ffc107;
+}
+.btn-outline-warning:hover {
+  background-color: #ffc107;
+  color: #000;
+}
+
