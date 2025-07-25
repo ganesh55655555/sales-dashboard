@@ -1,0 +1,8 @@
+/home/ubuntu/Sales-Lead-Fullstack/salesbackend/src/main/java/com/example/salesbackend/SalesbackendApplication.java
+/home/ubuntu/Sales-Lead-Fullstack/salesbackend/src/main/java/com/example/salesbackend/config/CorsConfig.java
+/home/ubuntu/Sales-Lead-Fullstack/salesbackend/src/main/java/com/example/salesbackend/controller/SalesLeadController.java
+/home/ubuntu/Sales-Lead-Fullstack/salesbackend/src/main/java/com/example/salesbackend/model/SalesLead.java
+/home/ubuntu/Sales-Lead-Fullstack/salesbackend/src/main/java/com/example/salesbackend/model/user.java
+/home/ubuntu/Sales-Lead-Fullstack/salesbackend/src/main/java/com/example/salesbackend/repository/SalesLeadRepository.java
+/home/ubuntu/Sales-Lead-Fullstack/salesbackend/src/main/java/com/example/salesbackend/repository/userrepo.java
+/home/ubuntu/Sales-Lead-Fullstack/salesbackend/src/main/java/com/example/salesbackend/service/userservice.java

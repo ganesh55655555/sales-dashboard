@@ -1,0 +1,9 @@
+com/example/salesbackend/controller/SalesLeadController.class
+com/example/salesbackend/repository/SalesLeadRepository.class
+com/example/salesbackend/config/CorsConfig$1.class
+com/example/salesbackend/service/userservice.class
+com/example/salesbackend/model/user.class
+com/example/salesbackend/repository/userrepo.class
+com/example/salesbackend/SalesbackendApplication.class
+com/example/salesbackend/config/CorsConfig.class
+com/example/salesbackend/model/SalesLead.class
