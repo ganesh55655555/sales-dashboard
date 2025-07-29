@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/sales")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://3.80.193.6:4200")
 public class SalesLeadController {
 
     @Autowired
